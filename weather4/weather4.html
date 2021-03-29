@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>weather</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <LINK  rel="stylesheet" type="text/css">
+        <meta http-equiv="refresh" content="8" >
+        <style>
+            body {
+                
+                max-width: 1920px;
+  
+
+
+     background: #3c3c3d;
+    font-family:'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 40px;
+    text-shadow: 3px 2px rgb(0, 0, 0);
+    color: rgb(201, 216, 216);
+    text-align: center;
+   
+
+   
+    
+            }
+            
+          
+            
+            .container {
+              
+                max-width: 1920px;
+   
+              padding-top: 200px;
+            }
+            
+           
+            
+            #images{
+                max-width: 1920px;
+    align-content: center;
+            }
+                </style>
+</head>
+
+<body>
+ <!--  <button id="internet-button">internet-button</button>-->
+
+  <div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 offset-md-4"><span id="ciudad"></span></div>
+        <!-- <div class="col-md-6 offset-md-4">   <span id="clima"></span></div> -->
+        </div>
+    <div class="row justify-content-center" >
+  <div id="images" class="col-md-6 offset-md-4"> </div>
+</div>
+    
+    
+  
+</div>
+
+
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+ 
+ var putCity;
+
+
+
+
+
+    //$("#internet-button").on("click", function() {
+        $( window ).on( "load", function() {
+        event.preventDefault();
+        clear();      
+
+        var item = ['acapulco', 'aguascalientes', 'apodaca', 'buenavista', 'campeche', 'cancun','chetumal','chihuahua','chilpancingo','colima','cordoba','cuernavaca','culiacan','cuernavaca','durango','guadalajara','hermosillo','juarez','los cabos','matamoros','mazatlan','merida','monclova','monterrey','puebla','queretaro','tampico','toluca','zapopan'].find((_, i, ar) => Math.random() < 1 / (ar.length - i));
+   
+        //var getCity = $(item).val();
+        var getCity = JSON.stringify(item);
+        //console.log(JSON.stringify(item));
+        console.log(getCity);
+        //$("#ciudad").prepend(JSON.stringify(item));
+        $("#ciudad").append(getCity);
+  
+        var APIKeytwo = "0273302ea17d84a29b00b53473f15756";
+                    var queryURLtwo = "https://api.openweathermap.org/data/2.5/weather?q=" + putCity + ",mx&appid=" + APIKeytwo;
+                   
+                    var APIKey = "Zpf6H2wI6BHIzUiv6hoqUNqeIsoVVKA4";
+      var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + APIKey + "&tag=" + getCity;
+
+                    $.ajax({
+                        url: queryURLtwo,
+                        method: "GET"
+                    })
+                        .then(function (response) {
+
+                            console.log(queryURL);
+                            console.log(response);
+                         
+                            
+
+                            //generate list of five movies according to weather.
+
+                            if (response.weather[0].main === "Clouds") {
+                                $("#clima").append("esta nublado");
+                                var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + APIKey + "&tag=cloud";
+                                $.ajax({
+                                    url: queryURL,
+                                    method: "GET"
+                                })
+                                    .then(function (response) {
+
+                                        var imageUrl = response.data.image_original_url;
+                                        var catImage = $("<img>");
+                                        catImage.attr("src", imageUrl);
+                                        $("#images").prepend(catImage);
+
+                                    });
+                            }
+                           
+                            if (response.weather[0].main === "Clear") {
+                                $("#clima").append("Sol calientito");
+
+                                var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + APIKey + "&tag=sun";
+                                $.ajax({
+                                    url: queryURL,
+                                    method: "GET"
+                                })
+                                    .then(function (response) {
+
+                                        var imageUrl = response.data.image_original_url;
+                                        var catImage = $("<img>");
+                                        catImage.attr("src", imageUrl);
+                                        $("#images").prepend(catImage);
+
+                                    });
+                            }
+                            if (response.weather[0].main === "Rain") {
+                                $("#clima").append("Esta lloviendo...");
+                                var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + APIKey + "&tag=raining";
+                                $.ajax({
+                                    url: queryURL,
+                                    method: "GET"
+                                })
+                                    .then(function (response) {
+
+                                        var imageUrl = response.data.image_original_url;
+                                        var catImage = $("<img>");
+                                        catImage.attr("src", imageUrl);
+                                        $("#images").prepend(catImage);
+
+                                    });
+                            }
+                            if (response.weather[0].main === "Snow") {
+                                $("#clima").append("Nevando?!?!?!?");
+                                var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + APIKey + "&tag=snow";
+                                $.ajax({
+                                    url: queryURL,
+                                    method: "GET"
+                                })
+                                    .then(function (response) {
+
+                                        var imageUrl = response.data.image_original_url;
+                                        var catImage = $("<img>");
+                                        catImage.attr("src", imageUrl);
+                                        $("#images").prepend(catImage);
+                                    });      
+                            }  
+                        });  
+                });
+
+
+                function clear() {
+                    $("#images").empty();
+                    //document.getElementById("#ciudad").innerHTML = "";
+                    //document.getElementById("#clima").innerHTML = "";
+                    $("#ciudad").empty();
+               // $("#clima").empty();
+                }
+
+
+
+
+
+
+/*
+
+//other code
+
+//0273302ea17d84a29b00b53473f15756
+      //Zpf6H2wI6BHIzUiv6hoqUNqeIsoVVKA4
+      //dc6zaTOxFJmzC
+      var APIKey = "Zpf6H2wI6BHIzUiv6hoqUNqeIsoVVKA4";
+      var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=" + APIKey + "&tag=" + getCity;
+  
+      // Perfoming an AJAX GET request to our queryURL
+      $.ajax({
+        url: queryURL,
+        //url: queryURLtwo,
+        method: "GET"
+      })
+
+      
+
+      // After the data from the AJAX request comes back
+        .then(function(response) {
+
+        // Saving the image_original_url property
+          var imageUrl = response.data.image_original_url;
+
+          // Creating and storing an image tag
+          var neingagImage = $("<img>");
+          //var chanImage = $("<img>");
+
+          // Setting the neingagImage src attribute to imageUrl
+          neingagImage.attr("src", imageUrl);
+          neingagImage.attr("alt", "9gag");
+
+          //chanImage.attr("src", imageUrl);
+          //chanImage.attr("alt", "cat image");
+
+          // Prepending the neingagImage to the images div
+          $("#images").prepend(neingagImage);
+          //$("#images").prepend(chanImage);
+        });
+    //});
+
+    */
+    //other code
+   
+
+        
+
+
+
+    
+  </script>
+</body>
+
+</html>
